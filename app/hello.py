@@ -2,8 +2,8 @@ from flask import Flask, render_template, request
 import uuid
 app = Flask(__name__)
 
-usuarios = ['Mikael', 'Yasmin']
-senha = ['123', '456']
+usuarios = ['Mikael', 'Yasmin', 'Robson']
+senha = ['123', '456', 'MGabriel10!']
 musicas = {}
 @app.route('/', methods=['GET', 'POST'])
 def TelaLogin():
@@ -12,14 +12,14 @@ def TelaLogin():
         verificar_usuario = request.form.get('usuario') 
         verificar_senha = request.form.get('senha')
         if verificar_usuario in usuarios:
-            #Pegando a posição de usuario na lista
             index = usuarios.index(verificar_usuario)
-            # vincula a posição de usuario com a da senha
             if senha[index] == verificar_senha:
                 return render_template('tela_usuario.html')
             else:
-                error = 'Usuário não encontrado. Tente novamente.'
-    return render_template('validacao.html', error = error)
+                error = 'Senha incorreta. Tente novamente.'
+        else:
+            error = 'Usuário não encontrado. Tente novamente.'
+    return render_template('validacao.html', error=error)
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro_usuario():
@@ -48,3 +48,21 @@ def cadastrarMusicas():
 @app.route('/logout')
 def logout():
     return render_template('validacao.html')
+
+@app.route('/excluir/<id>')
+def excluir_musica(id):
+    if id in musicas:
+        del musicas[id]
+    return render_template('tela_usuario.html', musicas = musicas)
+
+@app.route('/editar/<id>', methods=['GET', 'POST'])
+def editar_musica(id):
+    if request.method == 'POST':
+        novo_cantor = request.form.get('cantor_banda')
+        nova_musica = request.form.get('musica')
+        musicas[id]['nome'] = novo_cantor
+        musicas[id]['musica'] = nova_musica
+        return render_template('tela_usuario.html', musicas=musicas)
+    
+    musica = musicas[id]
+    return render_template('editar.html', id=id, musica=musica)

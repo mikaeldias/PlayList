@@ -78,8 +78,7 @@
     <form action="/logout" method="get" class="text-end">
       <button type="submit" class="btn btn-danger">Logout</button>
     </form>
-  </body>
-  
+
     <!-- Caixa com botão de cadastro -->
     <div class="container-box">
       <h1>Seja bem-vindo</h1>
@@ -155,9 +154,10 @@
         >
           <thead class="table-light">
             <tr>
-              <th style="width: 150px">ID</th>
-              <th style="width: 120px">Cantor</th>
-              <th style="width: 180px">Música</th>
+              <th style="width: 100px">ID</th>
+              <th style="width: 150px">Cantor</th>
+              <th style="width: 200px">Música</th>
+              <th style="width: 220px">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -166,7 +166,14 @@
               <td>{{ id }}</td>
               <td>{{ dados.nome }}</td>
               <td>{{ dados.musica }}</td>
-              <!-- Ação futura, como Excluir -->
+              <td>
+                <a href="/editar/{{ id }}" class="btn btn-sm btn-warning me-2"
+                  >Editar</a
+                >
+                <a href="/excluir/{{ id }}" class="btn btn-sm btn-danger"
+                  >Excluir</a
+                >
+              </td>
             </tr>
             {% endfor %} {% else %}
             <tr>
